@@ -61,7 +61,7 @@ const processQuery = (tasks, question) => {
   // project tasks
   if (question.includes("project")) {
     const name = question.split("project")[1]?.trim();
-    return tasks.filter((t) => t.project.toLowerCase().includes(name));
+    return tasks.filter((t) => t.project && t.project.toLowerCase().includes(name));
   }
 
   return { message: "Query not understood" };
