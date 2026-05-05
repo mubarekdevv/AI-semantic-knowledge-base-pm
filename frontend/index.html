@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Project Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        form, .query-section {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #2f80ed;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1366d6;
+        }
+
+        .results {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .task {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .task:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>AI-Powered Project Manager</h1>
+
+    <!-- Add Task Form -->
+    <h2>Add Task</h2>
+    <form id="taskForm">
+        <input type="text" id="taskName" placeholder="Task Name" required>
+        <input type="text" id="projectName" placeholder="Project Name" required>
+        <input type="date" id="deadline" required>
+        <select id="status">
+            <option value="pending">Pending</option>
+            <option value="done">Done</option>
+        </select>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Ask AI -->
+    <h2>Ask AI</h2>
+    <div class="query-section">
+        <input type="text" id="questionInput" placeholder="Ask a question...">
+        <button id="askBtn">Ask</button>
+    </div>
+
+    <!-- Results -->
+    <h2>Results</h2>
+    <div id="results" class="results"></div>
+
+</div>
+
+<script>
+    const API_URL = "http://localhost:5000";
+
+    // Add Task
+    document.getElementById("taskForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const data = {
+            name: document.getElementById("taskName").value,
+            project: document.getElementById("projectName").value,
+            deadline: document.getElementById("deadline").value,
+            status: document.getElementById("status").value
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/task`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await res.json();
+            alert("Task added successfully!");
+            document.getElementById("taskForm").reset();
+
+        } catch (err) {
+            console.error(err);
+            alert("Error adding task");
+        }
+    });
+
+    // Ask AI
+    document.getElementById("askBtn").addEventListener("click", async function() {
+        const question = document.getElementById("questionInput").value;
+
+        if (!question) return;
+
+        try {
+            const res = await fetch(`${API_URL}/query`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question })
+            });
+
+            const data = await res.json();
+            displayResults(data);
+
+        } catch (err) {
+            console.error(err);
+            alert("Error fetching answer");
+        }
+    });
+
+    // Display Results
+    function displayResults(data) {
+        const container = document.getElementById("results");
+        container.innerHTML = "";
+        if (Array.isArray(data)) {
+            data.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("task");
+
+                div.innerHTML = `
+                    <strong>Task:</strong> ${item.name || "N/A"}<br>
+                    <strong>Project:</strong> ${item.project || "N/A"}<br>
+                    <strong>Deadline:</strong> ${item.deadline || "N/A"}<br>
+                    <strong>Status:</strong> ${item.status || "N/A"}
+                `;
+
+                container.appendChild(div);
+            });
+        } else {
+            container.innerHTML = <p>${JSON.stringify(data)}</p>;
+        }
+    }
+</script>
+
+</body>
+</html>

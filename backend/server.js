@@ -13,6 +13,10 @@ app.use('/', taskRoutess);
 
 let tasks = [];
 
+app.get('/', (req, ressa)=>{
+    ressa.send("API is running");
+})
+
 // Add task
 app.post('/task', (req, res) => {
   const task = req.body;
