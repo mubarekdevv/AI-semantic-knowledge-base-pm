@@ -15,15 +15,44 @@ const processQuery = (tasks, question) => {
     const risks = tasks.filter(
       (t) => new Date(t.deadline) < new Date() && t.status !== "done",
     );
-    return { risks };
+    return {
+      reasoning:
+        "Tasks are considered risks if they are delayed and not completed",
+      data: risks,
+    };
+  }
+
+  if (question.includes("dependency") || question.includes("blocked")) {
+    let risks = [];
+
+    relationships.forEach((rel) => {
+      if (rel.predicate === "DEPENDS_ON") {
+        const parent = tasks.find((t) => t.id === rel.object);
+        const child = tasks.find((t) => t.id === rel.subject);
+
+        if (parent.status === "delayed") {
+          risks.push({
+            task: child.name,
+            reason: `Blocked by delayed task: ${parent.name}`,
+          });
+        }
+      }
+    });
+
+    return {
+      reasoning: "Tasks depending on delayed tasks are at risk",
+      data: risks,
+    };
   }
 
   // detect urgency
   if (question.includes("urgent")) {
-    return tasks.filter(
-      (t) => new Date(t.deadline) - new Date() < 3 * 24 * 60 * 60 * 1000,
-    );
+    return tasks.filter((t) => {
+      const diff = new Date(t.deadline) - new Date();
+      return diff < 3 * 24 * 60 * 60 * 1000 && t.status !== "done";
+    });
   }
+
 
   // project tasks
   if (question.includes("project")) {

@@ -7,10 +7,15 @@ const createTask = (req, res) => {
   res.json({ message: "Task added" });
 };
 
+const getTasks = (req, res) => {
+  const tasks = getAllTasks();
+  res.json(tasks);
+};
+
 const handleQuery = (req, res) => {
   const tasks = getAllTasks();
   const result = processQuery(tasks, req.body.question);
   res.json(result);
 };
 
-module.exports = { createTask, handleQuery };
+module.exports = { createTask, handleQuery, getTasks };
