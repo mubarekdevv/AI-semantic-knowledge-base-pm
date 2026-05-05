@@ -22,4 +22,4 @@ const addTask = (task) => {
 
 const getAllTasks = () => tasks;
 
-module.exports = { addTask, getAllTasks };
+module.exports = { addTask, getAllTasks, tasks, relationships };

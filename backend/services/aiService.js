@@ -1,5 +1,9 @@
 // services/aiService.js
 
+const { getAllTasks } = require('../models/taskModel');
+const { relationships } = require('../models/taskModel'); // this won't work yet
+const { tasks, relationships } = require("../models/taskModel");
+
 const processQuery = (tasks, question) => {
   question = question.toLowerCase();
 
