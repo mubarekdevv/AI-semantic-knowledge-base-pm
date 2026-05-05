@@ -18,6 +18,13 @@ const processQuery = (tasks, question) => {
     return { risks };
   }
 
+  // detect urgency
+  if (question.includes("urgent")) {
+    return tasks.filter(
+      (t) => new Date(t.deadline) - new Date() < 3 * 24 * 60 * 60 * 1000,
+    );
+  }
+
   // project tasks
   if (question.includes("project")) {
     const name = question.split("project")[1]?.trim();
@@ -25,6 +32,6 @@ const processQuery = (tasks, question) => {
   }
 
   return { message: "Query not understood" };
-};
+};;
 
 module.exports = { processQuery };
