@@ -14,7 +14,7 @@ const getTasks = (req, res) => {
 
 const handleQuery = (req, res) => {
   const tasks = getAllTasks();
-  const result = processQuery(tasks, req.body.question);
+  const result = processQuery(req.body.question);
   res.json(result);
 };
 

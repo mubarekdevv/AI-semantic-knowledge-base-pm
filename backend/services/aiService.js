@@ -1,10 +1,8 @@
 // services/aiService.js
 
-const { getAllTasks } = require('../models/taskModel');
-const { relationships } = require('../models/taskModel'); // this won't work yet
 const { tasks, relationships } = require("../models/taskModel");
 
-const processQuery = (tasks, question) => {
+const processQuery = (question) => {
   question = question.toLowerCase();
 
   // delayed tasks
@@ -29,12 +27,16 @@ const processQuery = (tasks, question) => {
   if (question.includes("dependency") || question.includes("blocked")) {
     let risks = [];
 
+    if (!relationships || relationships.length === 0) {
+      return { message: "No relationships found" };
+    }
+
     relationships.forEach((rel) => {
       if (rel.predicate === "DEPENDS_ON") {
         const parent = tasks.find((t) => t.id === rel.object);
         const child = tasks.find((t) => t.id === rel.subject);
 
-        if (parent.status === "delayed") {
+        if (parent && child && parent.status === "delayed") {
           risks.push({
             task: child.name,
             reason: `Blocked by delayed task: ${parent.name}`,
