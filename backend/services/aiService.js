@@ -59,6 +59,10 @@ const processQuery = (question) => {
     });
   }
 
+  if (question.includes("all tasks") || question.includes("show all")) {
+    return tasks;
+  }
+
 
   // project tasks
   if (question.includes("project")) {
