@@ -489,8 +489,17 @@
                             Delayed: ${data.data.delayed}
                         </div>
                     </div>
-  `;
-}
+                    `;
+                }
+            
+            if (data.confidence) {
+                html += `
+                    <div class="reasoning-box">
+                        <div class="reasoning-label">📊 Confidence</div>
+                        <div class="reasoning-text">${data.confidence}</div>
+                    </div>
+                    `;
+                }
 
             if (data.answer) {
                 html += `

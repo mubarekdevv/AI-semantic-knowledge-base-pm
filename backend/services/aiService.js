@@ -27,16 +27,17 @@ const processQuery = (question) => {
   if (question.includes("dependency") || question.includes("blocked")) {
     let risks = [];
 
-    if (!relationships || relationships.length === 0) {
-      return { message: "No relationships found" };
-    }
-
     relationships.forEach((rel) => {
       if (rel.predicate === "DEPENDS_ON") {
         const parent = tasks.find((t) => t.id === rel.object);
         const child = tasks.find((t) => t.id === rel.subject);
 
-        if (parent && child && parent.status === "delayed") {
+        if (
+          parent &&
+          child &&
+          new Date(parent.deadline) < new Date() &&
+          parent.status !== "done"
+        ) {
           risks.push({
             task: child.name,
             reason: `Blocked by delayed task: ${parent.name}`,
@@ -83,7 +84,7 @@ const processQuery = (question) => {
       data: tasks.filter((t) => t.status === "pending"),
     };
   }
-  
+
   //Summary AI
   if (question.includes("summary") || question.includes("overview")) {
     return {
@@ -104,7 +105,8 @@ const processQuery = (question) => {
     );
 
     return {
-      reasoning: "High risk tasks are delayed and unfinished",
+      reasoning: "Tasks are considered risks if delayed and incomplete",
+      confidence: "High",
       data: risks,
     };
   }
