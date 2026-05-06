@@ -37,6 +37,14 @@ const processQuery = (question) => {
     };
   }
 
+  //count tasks
+  if (question.includes("count")) {
+    return {
+      reasoning: "Counting all tasks",
+      data: { total: tasks.length },
+    };
+  }
+
   // risks
   if (question.includes("risk") || question.includes("problem")) {
     const risks = tasks.filter(
