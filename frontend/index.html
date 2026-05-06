@@ -420,8 +420,16 @@
             }
 
             data.forEach(item => {
-                const statusClass = item.status === "done" ? "status-done" : "status-pending";
-                const statusText = item.status === "done" ? "✓ Done" : "⏳ Pending";
+                let statusClass = "status-pending";
+                let statusText = "⏳ Pending";
+
+                if (item.status === "done") {
+                    statusClass = "status-done";
+                    statusText = "✓ Done";
+                } else if (item.status === "delayed") {
+                    statusClass = "status-delayed";
+                    statusText = "⚠️ Delayed";
+                }
 
                 const div = document.createElement("div");
                 div.className = "task-card";
