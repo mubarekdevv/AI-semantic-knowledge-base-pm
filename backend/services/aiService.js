@@ -1,8 +1,9 @@
 // services/aiService.js
 
-const { tasks, relationships } = require("../models/taskModel");
+const { getAllTasks, relationships } = require("../models/taskModel");
 
 const processQuery = (question) => {
+  const tasks = getAllTasks(); // 🔥 ALWAYS get latest tasks
   question = question.toLowerCase();
 
   //Show All Tasks
@@ -35,6 +36,11 @@ const processQuery = (question) => {
 
   if (question.includes("dependency") || question.includes("blocked")) {
     let risks = [];
+
+    // ✅ SAFETY CHECK (put it HERE)
+    if (!relationships || relationships.length === 0) {
+      return { message: "No relationships found" };
+    }
 
     relationships.forEach((rel) => {
       if (rel.predicate === "DEPENDS_ON") {
@@ -109,14 +115,14 @@ const processQuery = (question) => {
   }
 
   // project tasks
-  if (question.includes("project")) {
-    const name = question.split("project")[1]?.trim();
-    return tasks.filter(
-      (t) => t.project && t.project.toLowerCase().includes(name),
-    );
-  }
+ if (question.startsWith("project")) {
+   const name = question.split("project")[1]?.trim();
+   return tasks.filter(
+     (t) => t.project && t.project.toLowerCase().includes(name),
+   );
+ }
 
   return { message: "Query not understood" };
-};;;
+};
 
 module.exports = { processQuery };

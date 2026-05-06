@@ -30,4 +30,4 @@ const handleQuery = (req, res) => {
   res.json(result);
 };
 
-module.exports = { createTask, handleQuery, getTasks };
+module.exports = { createTask, handleQuery, getTasks, deleteCompleted, deleteByName };
