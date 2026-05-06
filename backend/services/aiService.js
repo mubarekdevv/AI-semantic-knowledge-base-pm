@@ -30,8 +30,10 @@ const processQuery = (question) => {
 
   if (question.includes("overdue")) {
     return {
-      reasoning: "Tasks past deadline",
-      data: tasks.filter((t) => new Date(t.deadline) < new Date()),
+      reasoning: "Tasks past their deadline",
+      data: tasks.filter(
+        (t) => new Date(t.deadline) < new Date() && t.status !== "done",
+      ),
     };
   }
 
