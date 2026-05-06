@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+router.delete("/tasks/completed", deleteCompleted);
+router.delete("/tasks/by-name", deleteByName);
+
 const {
   createTask,
   handleQuery,

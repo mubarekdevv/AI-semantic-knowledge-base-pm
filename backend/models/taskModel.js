@@ -20,6 +20,21 @@ const addTask = (task) => {
   tasks.push(task);
 };
 
+const deleteCompletedTasks = () => {
+  tasks = tasks.filter((t) => t.status !== "done");
+};
+
+const deleteTaskByName = (name) => {
+  tasks = tasks.filter((t) => t.name.toLowerCase() !== name.toLowerCase());
+};
+
 const getAllTasks = () => tasks;
 
-module.exports = { addTask, getAllTasks, tasks, relationships };
+module.exports = {
+  addTask,
+  getAllTasks,
+  tasks,
+  relationships,
+  deleteCompletedTasks,
+  deleteTaskByName,
+};
