@@ -22,6 +22,15 @@ const processQuery = (question) => {
     );
   }
 
+  //overdue
+
+  if (question.includes("overdue")) {
+    return {
+      reasoning: "Tasks past deadline",
+      data: tasks.filter((t) => new Date(t.deadline) < new Date()),
+    };
+  }
+
   // risks
   if (question.includes("risk") || question.includes("problem")) {
     const risks = tasks.filter(
