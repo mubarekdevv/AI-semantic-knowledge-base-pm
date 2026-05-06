@@ -16,7 +16,11 @@ const processQuery = (question) => {
   }
 
   // delayed tasks
-  if (question.includes("delay") || question.includes("late")) {
+  if (
+    question.includes("delay") ||
+    question.includes("delayed") ||
+    question.includes("late")
+  ) {
     return tasks.filter(
       (t) => new Date(t.deadline) < new Date() && t.status !== "done",
     );
@@ -76,6 +80,19 @@ const processQuery = (question) => {
     };
   }
 
+  // closest to deadline
+  // Closest deadline
+  if (question.includes("closest") || question.includes("nearest deadline")) {
+    const upcoming = tasks
+      .filter((t) => t.status !== "done")
+      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+    return {
+      reasoning: "Finding task with nearest deadline",
+      data: upcoming.length ? [upcoming[0]] : [],
+    };
+  }
+
   // detect urgency
   if (question.includes("urgent")) {
     return tasks.filter((t) => {
@@ -124,14 +141,14 @@ const processQuery = (question) => {
   }
 
   // project tasks
- if (question.startsWith("project")) {
-   const name = question.split("project")[1]?.trim();
-   return tasks.filter(
-     (t) => t.project && t.project.toLowerCase().includes(name),
-   );
- }
+  if (question.startsWith("project")) {
+    const name = question.split("project")[1]?.trim();
+    return tasks.filter(
+      (t) => t.project && t.project.toLowerCase().includes(name),
+    );
+  }
 
   return { message: "Query not understood" };
-};
+};;
 
 module.exports = { processQuery };
