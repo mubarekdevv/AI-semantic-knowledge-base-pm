@@ -63,6 +63,9 @@ const processQuery = (question) => {
     return tasks;
   }
 
+  if (question.includes("completed") || question.includes("done")) {
+    return tasks.filter((t) => t.status === "done");
+  }
 
   // project tasks
   if (question.includes("project")) {
