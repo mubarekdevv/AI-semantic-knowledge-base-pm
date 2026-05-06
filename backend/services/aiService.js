@@ -44,6 +44,14 @@ const processQuery = (question) => {
       data: { total: tasks.length },
     };
   }
+  //Deleting via AI
+  if (question.includes("delete completed")) {
+    const remaining = tasks.filter((t) => t.status !== "done");
+    return {
+      reasoning: "Simulating deletion of completed tasks",
+      data: remaining,
+    };
+  }
 
   // risks
   if (question.includes("risk") || question.includes("problem")) {
