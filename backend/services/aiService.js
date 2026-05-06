@@ -50,10 +50,12 @@ const processQuery = (question) => {
   if (question.includes("dependency") || question.includes("blocked")) {
     let risks = [];
 
-    // ✅ SAFETY CHECK (put it HERE)
-    if (!relationships || relationships.length === 0) {
-      return { message: "No relationships found" };
-    }
+   if (!relationships || relationships.length === 0) {
+     return {
+       reasoning: "No task dependencies found",
+       data: [],
+     };
+   }
 
     relationships.forEach((rel) => {
       if (rel.predicate === "DEPENDS_ON") {
