@@ -60,7 +60,11 @@ const processQuery = (question) => {
   }
 
   //Show All Tasks
-  if (question.includes("all tasks") || question.includes("show all")) {
+  if (
+    question.includes("all tasks") ||
+    question.includes("show all") ||
+    question.includes("everything")
+  ) {
     return tasks;
   }
 

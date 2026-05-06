@@ -477,6 +477,21 @@
                 `;
             }
 
+            //render nested objects like data
+            if (data.data && typeof data.data === "object" && !Array.isArray(data.data)) {
+                html += `
+                    <div class="reasoning-box">
+                        <div class="reasoning-label">📊 Summary</div>
+                        <div class="reasoning-text">
+                            Total: ${data.data.total}<br>
+                            Completed: ${data.data.completed}<br>
+                            Pending: ${data.data.pending}<br>
+                            Delayed: ${data.data.delayed}
+                        </div>
+                    </div>
+  `;
+}
+
             if (data.answer) {
                 html += `
                     <div class="reasoning-box">
