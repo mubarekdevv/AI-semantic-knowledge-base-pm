@@ -100,6 +100,18 @@ const processQuery = (question) => {
     };
   }
 
+  //recommend the next task
+  if (question.includes("next")) {
+    const upcoming = tasks
+      .filter((t) => t.status !== "done")
+      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+    return {
+      reasoning: "Next task to focus on",
+      data: upcoming.length ? [upcoming[0]] : [],
+    };
+  }
+
   // closest to deadline
   // Closest deadline
   if (question.includes("closest") || question.includes("nearest deadline")) {
