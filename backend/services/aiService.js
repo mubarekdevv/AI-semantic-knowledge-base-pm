@@ -93,6 +93,18 @@ const processQuery = (question) => {
     };
   }
 
+  // Sort by urgency
+  if (question.includes("sort") || question.includes("urgency order")) {
+    const sorted = tasks
+      .filter((t) => t.status !== "done")
+      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
+    return {
+      reasoning: "Sorting tasks by urgency (nearest deadline first)",
+      data: sorted,
+    };
+  }
+
   // detect urgency
   if (question.includes("urgent")) {
     return tasks.filter((t) => {
@@ -149,6 +161,6 @@ const processQuery = (question) => {
   }
 
   return { message: "Query not understood" };
-};;
+};;;
 
 module.exports = { processQuery };
