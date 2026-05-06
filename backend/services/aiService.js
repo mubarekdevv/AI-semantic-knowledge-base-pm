@@ -61,18 +61,29 @@ const processQuery = (question) => {
 
   //Show All Tasks
   if (
-    question.includes("all tasks") ||
-    question.includes("show all") ||
-    question.includes("everything")
-  ) {
-    return tasks;
-  }
+  question.includes("all tasks") ||
+  question.includes("show all") ||
+  question.includes("everything")
+) {
+  return {
+    reasoning: "Returning all tasks in the system",
+    data: tasks
+  };
+}
 
   //Completed Tasks
   if (question.includes("completed") || question.includes("done")) {
     return tasks.filter((t) => t.status === "done");
   }
 
+  //pending tasks
+  if (question.includes("pending")) {
+    return {
+      reasoning: "Filtering pending tasks",
+      data: tasks.filter((t) => t.status === "pending"),
+    };
+  }
+  
   //Summary AI
   if (question.includes("summary") || question.includes("overview")) {
     return {
