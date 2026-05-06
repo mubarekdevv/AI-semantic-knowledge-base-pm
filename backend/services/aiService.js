@@ -82,6 +82,18 @@ const processQuery = (question) => {
     };
   }
 
+  //High Risk Detection
+  if (question.includes("high risk")) {
+    const risks = tasks.filter(
+      (t) => new Date(t.deadline) < new Date() && t.status !== "done",
+    );
+
+    return {
+      reasoning: "High risk tasks are delayed and unfinished",
+      data: risks,
+    };
+  }
+
   // project tasks
   if (question.includes("project")) {
     const name = question.split("project")[1]?.trim();
