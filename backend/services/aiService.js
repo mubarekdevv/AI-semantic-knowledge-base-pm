@@ -59,18 +59,35 @@ const processQuery = (question) => {
     });
   }
 
+  //Show All Tasks
   if (question.includes("all tasks") || question.includes("show all")) {
     return tasks;
   }
 
+  //Completed Tasks
   if (question.includes("completed") || question.includes("done")) {
     return tasks.filter((t) => t.status === "done");
+  }
+
+  //Summary AI
+  if (question.includes("summary") || question.includes("overview")) {
+    return {
+      reasoning: "Summary of current project state",
+      data: {
+        total: tasks.length,
+        completed: tasks.filter((t) => t.status === "done").length,
+        pending: tasks.filter((t) => t.status === "pending").length,
+        delayed: tasks.filter((t) => new Date(t.deadline) < new Date()).length,
+      },
+    };
   }
 
   // project tasks
   if (question.includes("project")) {
     const name = question.split("project")[1]?.trim();
-    return tasks.filter((t) => t.project && t.project.toLowerCase().includes(name));
+    return tasks.filter(
+      (t) => t.project && t.project.toLowerCase().includes(name),
+    );
   }
 
   return { message: "Query not understood" };
