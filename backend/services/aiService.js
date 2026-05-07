@@ -114,7 +114,7 @@ const processQuery = (question) => {
 
   // closest to deadline
   // Closest deadline
-  if (question.includes("closest") || question.includes("nearest deadline")) {
+  if (question.includes("closest")) {
     const upcoming = tasks
       .filter((t) => t.status !== "done")
       .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
