@@ -65,7 +65,7 @@ const processQuery = (question) => {
     };
   }
 
-  if (question.includes("dependency") || question.includes("blocked") || question.includes("related")) {
+  if (question.includes("dependency") || question.includes("blocked")) {
     let risks = [];
 
    if (!relationships || relationships.length === 0) {
