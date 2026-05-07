@@ -45,7 +45,7 @@ const processQuery = (question) => {
     };
   }
   //Deleting via AI
-  if (question.includes("delete completed") || question.includes("accomplished")) {
+  if (question.includes("delete completed")) {
     const remaining = tasks.filter((t) => t.status !== "done");
     return {
       reasoning: "Simulating deletion of completed tasks",
@@ -146,7 +146,7 @@ const processQuery = (question) => {
   }
 
   //Completed Tasks
-  if (question.includes("completed") || question.includes("done")) {
+  if (question.includes("completed") || question.includes("done") ) {
     return tasks.filter((t) => t.status === "done");
   }
 
