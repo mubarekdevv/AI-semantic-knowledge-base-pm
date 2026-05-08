@@ -14,12 +14,7 @@ app.use('/', taskRoutess);
 
 
 
-// Add task
-app.post('/task', (req, res) => {
-  const task = req.body;
-  tasks.push(task);
-  res.json({ message: "Task added", task });
-});
+
 
 // Query AI
 app.post('/query', (req, res) => {
