@@ -96,7 +96,7 @@ const processQuery = (question) => {
 
     return {
       reasoning: "Tasks depending on delayed tasks are at risk",
-      data: risks,
+      risks
     };
   }
 
