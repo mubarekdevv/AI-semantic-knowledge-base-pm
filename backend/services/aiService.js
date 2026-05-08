@@ -61,7 +61,7 @@ const processQuery = (question) => {
     return {
       reasoning:
         "Tasks are considered risks if they are delayed and not completed",
-      risks
+      data: risks,
     };
   }
 
