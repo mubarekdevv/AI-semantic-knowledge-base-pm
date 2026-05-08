@@ -11,7 +11,6 @@ app.use(express.json());
 
 app.use('/', taskRoutess);
 
-let tasks = [];
 
 app.get('/', (req, ressa)=>{
     ressa.send("API is running");
