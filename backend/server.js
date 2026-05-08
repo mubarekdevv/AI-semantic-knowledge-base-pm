@@ -11,7 +11,9 @@ app.use(express.json());
 
 app.use('/', taskRoutess);
 
-
+app.get("/", (req, res) => {
+  res.send("AI Semantic Knowledge Base API Running");
+});
 
 
 
