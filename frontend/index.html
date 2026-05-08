@@ -491,6 +491,24 @@
                 `;
             }
 
+            if (
+    data.data &&
+    !Array.isArray(data.data) &&
+    typeof data.data === "object"
+) {
+    html += `
+        <div class="reasoning-box">
+            <div class="reasoning-label">📊 Summary</div>
+            <div class="reasoning-text">
+                Total Tasks: ${data.data.total || 0}<br>
+                Completed: ${data.data.completed || 0}<br>
+                Pending: ${data.data.pending || 0}<br>
+                Delayed: ${data.data.delayed || 0}
+            </div>
+        </div>
+    `;
+}
+
             //render nested objects like data
             if (Array.isArray(data.data)) {
     data.data.forEach(item => {
