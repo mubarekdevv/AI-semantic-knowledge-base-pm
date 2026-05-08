@@ -17,7 +17,10 @@ let tasks = [
 let relationships = [{ subject: "t2", predicate: "DEPENDS_ON", object: "t1" }];
 
 const addTask = (task) => {
-  tasks.push(task);
+  tasks.push({
+    id: `t${tasks.length + 1}`,
+    ...task,
+  });
 };
 
 const deleteCompletedTasks = () => {
