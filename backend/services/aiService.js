@@ -193,6 +193,6 @@ const processQuery = (question) => {
   }
 
   return { message: "Query not understood" };
-};;;
+};
 
 module.exports = { processQuery };
